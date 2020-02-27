@@ -7,3 +7,4 @@ export * from './Separator/index';
 export * from './Stack/index';
 export * from './Text/index';
 export * from './RadioGroup/index';
+export * from './Checkbox/index';
