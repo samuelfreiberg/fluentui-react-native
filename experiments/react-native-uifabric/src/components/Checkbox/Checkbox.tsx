@@ -37,7 +37,10 @@ export const Checkbox = compose<ICheckboxType>({
     const slotProps = mergeSettings<ICheckboxSlotProps>(styleProps, {
       root: {
         rest,
-        ...pressable.props
+        ...pressable.props,
+        accessibilityRole: 'checkbox',
+        accessibilityLabel: ariaLabel ? ariaLabel : label
+        // Actions: 'Select' and "RemoveFromSelection"
       },
       content: { children: label }
     });

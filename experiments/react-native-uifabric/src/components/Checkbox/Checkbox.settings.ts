@@ -21,6 +21,7 @@ export const settings: IComposeSettings<ICheckboxType> = [
         height: 20,
         width: 20,
         marginRight: 4,
+        backgroundColor: 'white',
         borderColor: 'black',
         borderStyle: 'solid',
         borderWidth: 1,
@@ -46,12 +47,28 @@ export const settings: IComposeSettings<ICheckboxType> = [
         lineHeight: 20
       }
     },
-    _precedence: ['checked'],
+    _precedence: ['checked', 'hovered'],
     _overrides: {
       checked: {
         checkmark: {
           style: {
             opacity: 1
+          }
+        }
+      },
+      hovered: {
+        checkbox: {
+          style: {
+            backgroundColor: 'rgb(211,211,211)'
+          }
+        },
+        _overrides: {
+          checked: {
+            checkmark: {
+              style: {
+                opacity: 1
+              }
+            }
           }
         }
       }
