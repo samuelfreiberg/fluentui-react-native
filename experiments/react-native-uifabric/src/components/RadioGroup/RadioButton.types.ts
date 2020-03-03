@@ -1,35 +1,12 @@
 import * as React from 'react';
 import { ViewProps } from 'react-native';
 import { IRenderData } from '@uifabricshared/foundation-composable';
-import { ITextProps } from '../Text';
+import { ITextProps } from '@fluentui-native/text';
 import { IViewWin32Props } from '@office-iss/react-native-win32';
-import { ITextTokens } from '../../tokens/TextTokens';
-import { IForegroundColorTokens, IBackgroundColorTokens, IBorderTokens } from 'src/tokens';
-import { IPressableState, IPressableProps } from '../Pressable';
+import { ITextTokens, IForegroundColorTokens, IBackgroundColorTokens, IBorderTokens } from '@fluentui-native/tokens';
+import { IPressableProps } from '../Pressable/Pressable.props';
 
 export const radioButtonName = 'RadioButton';
-
-// The state of the Radio Button. It extends IPressableState to keep track of press, focus, and hover
-export interface IRadioButtonInfo extends IPressableState {
-  /*
-   ** Whether or not the RadioButton is currently checked
-   */
-  selected: boolean;
-
-  /*
-   ** Whether or not the option is disabled
-   */
-  disabled: boolean;
-}
-
-/**
- * Because state updates are coming from the touchable and will cause a child render the button doesn't use
- * changes in state value to trigger re-render.  The values inside inner are effectively mutable and are used
- * for per-component storage
- */
-export interface IRadioButtonState {
-  info: IRadioButtonInfo;
-}
 
 // Props for the radio button
 export interface IRadioButtonProps extends IPressableProps {
@@ -44,12 +21,12 @@ export interface IRadioButtonProps extends IPressableProps {
   buttonKey: string;
 
   /*
-   ** OPTIONAL: Whether or not the radio button is selectable
+   ** Whether or not the radio button is selectable
    */
   disabled?: boolean;
 
   /*
-   ** OPTIONAL: An optional string for the Narrator to read for each RadioButton. If not provided, this will be set to the button's content
+   ** An optional string for the Narrator to read for each RadioButton. If not provided, this will be set to the button's content
    */
   ariaLabel?: string;
 }
@@ -63,11 +40,10 @@ export interface IRadioButtonSlotProps {
   content: ITextProps;
 }
 
-export type IRadioButtonRenderData = IRenderData<IRadioButtonSlotProps, IRadioButtonState>;
+export type IRadioButtonRenderData = IRenderData<IRadioButtonSlotProps>;
 
 export interface IRadioButtonType {
   props: IRadioButtonProps;
   //tokens:
   slotProps: IRadioButtonSlotProps;
-  state: IRadioButtonState;
 }

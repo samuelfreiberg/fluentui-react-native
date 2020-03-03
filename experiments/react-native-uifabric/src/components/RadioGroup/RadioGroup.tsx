@@ -12,14 +12,14 @@ import {
 } from './RadioGroup.types';
 import { compose, IUseComposeStyling } from '@uifabricshared/foundation-compose';
 import { ISlots, withSlots } from '@uifabricshared/foundation-composable';
-import { filterViewProps } from '../../utilities/RenderHelpers';
+import { filterViewProps } from '@fluentui-native/adapters';
 import { settings } from './RadioGroup.settings';
 import { mergeSettings } from '@uifabricshared/foundation-settings';
-import { foregroundColorTokens, textTokens } from '../../tokens';
-import { useAsRadioGroupSelection } from '../../hooks';
+import { foregroundColorTokens, textTokens } from '@fluentui-native/tokens';
+import { useAsRadioGroupSelection } from '@fluentui-native/interactive-hooks';
 
 export const RadioGroupContext = React.createContext<IRadioGroupContext>({
-  selectedKey: '',
+  selectedKey: null,
   onChange: (key: string) => {
     return;
   }
@@ -32,18 +32,20 @@ export const RadioGroup = compose<IRadioGroupType>({
     const { label, ariaLabel, ...rest } = userProps;
 
     // This hook updates the Selected Button and calls the customer's onClick function. This gets called after a button is pressed.
-    const data = useAsRadioGroupSelection(userProps.defaultSelectedKey ? userProps.defaultSelectedKey : '', userProps.onChange);
+    const data = useAsRadioGroupSelection(userProps.defaultSelectedKey || null, userProps.onChange);
 
     const state: IRadioGroupState = {
-      selectedKey: data.selectedKey,
-      onChange: data.onChange
+      context: {
+        selectedKey: data.selectedKey,
+        onChange: data.onChange
+      }
     };
 
     const styleProps = useStyling(userProps, (override: string) => state[override] || userProps[override]);
 
     const ariaRoles = {
       accessibilityRole: 'radiogroup',
-      accessibilityLabel: ariaLabel ? ariaLabel : label
+      accessibilityLabel: ariaLabel || label
     };
 
     const slotProps = mergeSettings<IRadioGroupSlotProps>(styleProps, {
@@ -62,7 +64,7 @@ export const RadioGroup = compose<IRadioGroupType>({
     return (
       <RadioGroupContext.Provider
         // Passes in the selected key and a hook function to update the newly selected button and call the client's onChange callback
-        value={renderData.state}
+        value={renderData.state.context}
       >
         <Slots.root>
           <Slots.label />

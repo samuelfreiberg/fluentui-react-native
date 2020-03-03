@@ -4,11 +4,11 @@ import { View, Text } from 'react-native';
 import { ICheckboxState, ICheckboxProps, ICheckboxSlotProps, ICheckboxRenderData, ICheckboxType, checkboxName } from './Checkbox.types';
 import { compose, IUseComposeStyling } from '@uifabricshared/foundation-compose';
 import { ISlots, withSlots } from '@uifabricshared/foundation-composable';
-import { filterViewProps } from '../../utilities/RenderHelpers';
+import { filterViewProps } from '@fluentui-native/adapters';
 import { settings } from './Checkbox.settings';
 import { mergeSettings } from '@uifabricshared/foundation-settings';
-import { foregroundColorTokens, textTokens } from '../../tokens';
-import { useAsPressable, useAsToggleCheckbox } from '../../hooks';
+import { foregroundColorTokens, textTokens } from '@fluentui-native/tokens';
+import { useAsPressable, useAsToggleCheckbox } from '@fluentui-native/interactive-hooks';
 
 export const Checkbox = compose<ICheckboxType>({
   displayName: checkboxName,

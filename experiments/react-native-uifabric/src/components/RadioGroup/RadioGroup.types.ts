@@ -1,22 +1,26 @@
 import * as React from 'react';
 import { ViewProps } from 'react-native';
-import { ITextProps } from '../Text';
+import { ITextProps } from '@fluentui-native/text';
 import { IViewWin32Props } from '@office-iss/react-native-win32';
 import { IRenderData } from '@uifabricshared/foundation-composable';
-import { ITextTokens } from '../../tokens/TextTokens';
+import { ITextTokens } from '@fluentui-native/tokens';
 
 export const radioGroupName = 'RadioGroup';
 
-export interface IRadioGroupState {
+export interface IRadioGroupContext {
   /*
    ** The currently selected RadioButton's key
    */
-  selectedKey: string;
+  selectedKey: string | null;
 
   /*
    ** Updates the selected button and calls the client’s onChange callback
    */
-  onChange: (key: string) => void;
+  onChange?: (key: string) => void;
+}
+
+export interface IRadioGroupState {
+  context: IRadioGroupContext;
 }
 
 export interface IRadioGroupProps {
@@ -49,16 +53,10 @@ export interface IRadioGroupSlotProps {
   container: ViewProps;
 }
 
-export type IRadioGroupContext = {
-  selectedKey: string;
-  onChange: (key: string) => void;
-};
-
 export type IRadioGroupRenderData = IRenderData<IRadioGroupSlotProps, IRadioGroupState>;
 
 export interface IRadioGroupType {
   props: IRadioGroupProps;
-  //tokens:
   slotProps: IRadioGroupSlotProps;
   state: IRadioGroupState;
 }

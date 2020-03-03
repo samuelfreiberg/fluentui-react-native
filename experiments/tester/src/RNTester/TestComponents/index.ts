@@ -8,6 +8,7 @@ import { FocusTrapTest } from './FocusTrapZoneTest';
 import { PersonaCoinTest } from './PersonaCoin/PersonaCoinTest';
 import { RadioGroupTest } from './RadioGroupTest';
 import { CheckboxTest } from './CheckboxTest';
+import { PersonaTest } from './Persona/PersonaTest';
 
 export type TestDescription = {
   name: string;
@@ -50,5 +51,9 @@ export const allTestComponents: TestDescription[] = [
   {
     name: 'Checkbox Test',
     component: CheckboxTest
+  },
+  {
+    name: 'Persona Test',
+    component: PersonaTest
   }
 ];

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { IPressableState, IPressableProps } from '../Pressable';
+import { IPressableProps } from '../Pressable/Pressable.props';
+import { IPressableState } from '@fluentui-native/interactive-hooks';
 import { ViewProps } from 'react-native';
 import { IRenderData } from '@uifabricshared/foundation-composable';
-import { ITextProps } from '../Text';
+import { ITextProps } from '@fluentui-native/text';
 import { IViewWin32Props } from '@office-iss/react-native-win32';
 
 export const checkboxName = 'Checkbox';

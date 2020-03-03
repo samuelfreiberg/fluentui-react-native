@@ -2,21 +2,14 @@
 'use strict';
 import * as React from 'react';
 import { View, Text, NativeSyntheticEvent } from 'react-native';
-import {
-  radioButtonName,
-  IRadioButtonType,
-  IRadioButtonProps,
-  IRadioButtonState,
-  IRadioButtonSlotProps,
-  IRadioButtonRenderData
-} from './RadioButton.types';
+import { radioButtonName, IRadioButtonType, IRadioButtonProps, IRadioButtonSlotProps, IRadioButtonRenderData } from './RadioButton.types';
 import { compose, IUseComposeStyling } from '@uifabricshared/foundation-compose';
-import { filterViewProps } from '../../utilities/RenderHelpers';
+import { filterViewProps } from '@fluentui-native/adapters';
 import { ISlots, withSlots } from '@uifabricshared/foundation-composable';
-import { settings } from './RadioButton.settings';
+import { settings, radioButtonSelectActionLabel } from './RadioButton.settings';
 import { mergeSettings } from '@uifabricshared/foundation-settings';
-import { foregroundColorTokens, textTokens, borderTokens, backgroundColorTokens } from '../../tokens';
-import { useAsPressable } from '../../hooks';
+import { foregroundColorTokens, textTokens, borderTokens, backgroundColorTokens } from '@fluentui-native/tokens';
+import { useAsPressable } from '@fluentui-native/interactive-hooks';
 import { RadioGroupContext } from './RadioGroup';
 
 export const RadioButton = compose<IRadioButtonType>({
@@ -30,16 +23,26 @@ export const RadioButton = compose<IRadioButtonType>({
 
     const pressable = useAsPressable(rest);
 
-    const state: IRadioButtonState = {
-      info: {
-        ...pressable.state,
-        selected: info.selectedKey === userProps.buttonKey,
-        disabled: disabled || false
-      }
+    // Used when creating accessibility properties in mergeSettings below
+    const onAccessibilityAction = React.useCallback(
+      (event: { nativeEvent: { actionName: any } }) => {
+        switch (event.nativeEvent.actionName) {
+          case 'Select':
+            info.onChange && info.onChange(buttonKey);
+            break;
+        }
+      },
+      [info, buttonKey]
+    );
+
+    const state = {
+      ...pressable.state,
+      selected: info.selectedKey === userProps.buttonKey,
+      disabled: disabled || false
     };
 
     // Grab the styling information from the userProps, referencing the state as well as the props.
-    const styleProps = useStyling(userProps, (override: string) => state.info[override] || userProps[override]);
+    const styleProps = useStyling(userProps, (override: string) => state[override] || userProps[override]);
 
     // This function is called every time a RadioButton gains focus. It does two things:
     // 1) Calls pressable's onFocus in order to keep track of our state's focus variable. It is dependent on pressable's
@@ -47,19 +50,18 @@ export const RadioButton = compose<IRadioButtonType>({
     // 2) Selects the currently focused button by calling the RadioGroup's callback function.
     const onFocusChange = React.useCallback(
       (ev: NativeSyntheticEvent<{}>) => {
-        pressable.props.onFocus && pressable.props.onFocus(ev);
         // This check is necessary because this func gets called even when a button loses focus (not sure why?) which then calls the client's onChange multiple times
-        if (!state.info.selected) {
-          info.onChange(buttonKey);
+        if (!state.selected) {
+          info.onChange && info.onChange(buttonKey);
         }
       },
-      [state, pressable.props]
+      [state, pressable.props, info, buttonKey]
     );
 
     let accessibilityStates: string[] = [];
-    if (state.info.disabled) {
+    if (state.disabled) {
       accessibilityStates = ['disabled'];
-    } else if (state.info.selected) {
+    } else if (state.selected) {
       accessibilityStates = ['selected'];
     }
 
@@ -71,18 +73,13 @@ export const RadioButton = compose<IRadioButtonType>({
         accessibilityRole: 'radio',
         accessibilityLabel: ariaLabel ? ariaLabel : content,
         accessibilityStates: accessibilityStates,
-        accessibilityActions: [{ name: 'Select', label: 'Select a RadioButton' }],
-        onAccessibilityAction: React.useCallback((event: { nativeEvent: { actionName: any } }) => {
-          switch (event.nativeEvent.actionName) {
-            case 'Select':
-              info.onChange(buttonKey);
-          }
-        }, [])
+        accessibilityActions: [{ name: 'Select', label: radioButtonSelectActionLabel }],
+        onAccessibilityAction: onAccessibilityAction
       },
       content: { children: content }
     });
 
-    return { slotProps, state };
+    return { slotProps };
   },
 
   render: (Slots: ISlots<IRadioButtonSlotProps>, renderData: IRadioButtonRenderData, ...children: React.ReactNode[]) => {
