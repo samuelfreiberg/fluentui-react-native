@@ -12,6 +12,8 @@ export interface ICheckboxInfo extends IPressableState {
   checked: boolean;
 
   disabled: boolean;
+
+  boxSide: string;
 }
 
 export interface ICheckboxState {
@@ -21,7 +23,19 @@ export interface ICheckboxState {
 export interface ICheckboxProps extends IPressableProps {
   ariaLabel?: string;
 
+  /*
+   ** Checked state. Mutually exclusive to “defaultChecked”. Use this if you control the checked state at a higher level
+   ** and plan to pass in the correct value based on handling onChange events and re-rendering.
+   */
+  checked?: boolean;
+
+  /*
+   ** Default checked state. Mutually exclusive to ‘checked’. Use this if you want an uncontrolled component, and
+   ** want the Checkbox instance to maintain its own state.
+   */
   defaultChecked?: boolean;
+
+  boxSide?: string;
 
   disabled?: boolean;
 

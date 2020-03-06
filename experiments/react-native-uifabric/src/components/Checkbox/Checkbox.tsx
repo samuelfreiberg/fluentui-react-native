@@ -7,20 +7,20 @@ import { ISlots, withSlots } from '@uifabricshared/foundation-composable';
 import { filterViewProps } from '@fluentui-native/adapters';
 import { settings } from './Checkbox.settings';
 import { mergeSettings } from '@uifabricshared/foundation-settings';
-import { foregroundColorTokens, textTokens } from '@fluentui-native/tokens';
+import { foregroundColorTokens, textTokens, backgroundColorTokens, borderTokens } from '@fluentui-native/tokens';
 import { useAsPressable, useAsToggleCheckbox } from '@fluentui-native/interactive-hooks';
 
 export const Checkbox = compose<ICheckboxType>({
   displayName: checkboxName,
 
   usePrepareProps: (userProps: ICheckboxProps, useStyling: IUseComposeStyling<ICheckboxType>) => {
-    const { ariaLabel, defaultChecked, disabled, label, ...rest } = userProps;
+    const { ariaLabel, checked, defaultChecked, boxSide, disabled, label, ...rest } = userProps;
 
-    const data = useAsToggleCheckbox(defaultChecked == true ? true : false);
+    const data = useAsToggleCheckbox(defaultChecked || false);
 
     const onPress = React.useCallback(() => {
-      userProps.onChange && userProps.onChange(!data.checked);
       data.onChange();
+      userProps.onChange && userProps.onChange(!data.checked);
     }, [data, userProps]);
 
     const pressable = useAsPressable({ onPress: onPress, ...rest });
@@ -29,19 +29,22 @@ export const Checkbox = compose<ICheckboxType>({
       info: {
         ...pressable.state,
         disabled: disabled || false,
-        checked: data.checked
+        checked: checked != undefined ? checked : data.checked,
+        boxSide: boxSide == undefined ? 'start' : boxSide
       }
     };
 
     // Grab the styling information from the userProps, referencing the state as well as the props.
     const styleProps = useStyling(userProps, (override: string) => state.info[override] || userProps[override]);
 
-    let accessibilityStates: string[] = [];
-    if (state.info.disabled) {
-      accessibilityStates = ['disabled'];
-    } else if (state.info.checked) {
-      accessibilityStates = ['checked'];
-    }
+    // let accessibilityStates: string[] = [];
+    // if (state.info.disabled) {
+    //   accessibilityStates = ['disabled'];
+    // } else if (state.info.checked) {
+    //   accessibilityStates = ['checked'];
+    // }
+
+    const allyStates = state.info.disabled ? ['disabled'] : [];
 
     const slotProps = mergeSettings<ICheckboxSlotProps>(styleProps, {
       root: {
@@ -49,7 +52,7 @@ export const Checkbox = compose<ICheckboxType>({
         ...pressable.props,
         accessibilityRole: 'checkbox',
         accessibilityLabel: ariaLabel ? ariaLabel : label,
-        accessibilityStates: accessibilityStates
+        accessibilityStates: allyStates
         // Actions: 'Select' and "RemoveFromSelection"
       },
       content: { children: label }
@@ -59,15 +62,27 @@ export const Checkbox = compose<ICheckboxType>({
   },
 
   render: (Slots: ISlots<ICheckboxSlotProps>, renderData: ICheckboxRenderData, ...children: React.ReactNode[]) => {
-    return (
-      <Slots.root>
-        <Slots.checkbox>
-          <Slots.checkmark />
-        </Slots.checkbox>
-        <Slots.content />
-        {children}
-      </Slots.root>
-    );
+    if (renderData.state && renderData.state.info.boxSide == 'start') {
+      return (
+        <Slots.root>
+          <Slots.checkbox>
+            <Slots.checkmark />
+          </Slots.checkbox>
+          <Slots.content />
+          {children}
+        </Slots.root>
+      );
+    } else {
+      return (
+        <Slots.root>
+          <Slots.content />
+          <Slots.checkbox>
+            <Slots.checkmark />
+          </Slots.checkbox>
+          {children}
+        </Slots.root>
+      );
+    }
   },
 
   settings,
@@ -79,8 +94,8 @@ export const Checkbox = compose<ICheckboxType>({
   },
   styles: {
     root: [],
-    checkbox: [],
-    checkmark: [],
+    checkbox: [borderTokens],
+    checkmark: [backgroundColorTokens],
     content: [foregroundColorTokens, textTokens]
   }
 });

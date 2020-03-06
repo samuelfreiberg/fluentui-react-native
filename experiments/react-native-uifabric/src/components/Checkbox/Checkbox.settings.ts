@@ -47,7 +47,7 @@ export const settings: IComposeSettings<ICheckboxType> = [
         lineHeight: 20
       }
     },
-    _precedence: ['checked', 'hovered'],
+    _precedence: ['disabled', 'checked', 'hovered'],
     _overrides: {
       checked: {
         checkmark: {
@@ -70,6 +70,13 @@ export const settings: IComposeSettings<ICheckboxType> = [
               }
             }
           }
+        }
+      },
+      disabled: {
+        tokens: {
+          borderColor: 'buttonBorderDisabled',
+          color: 'disabledBodyText',
+          backgroundColor: 'background'
         }
       }
     }
