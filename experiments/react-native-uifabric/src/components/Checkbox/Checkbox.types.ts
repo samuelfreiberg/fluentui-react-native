@@ -10,6 +10,8 @@ export const checkboxName = 'Checkbox';
 
 export interface ICheckboxInfo extends IPressableState {
   checked: boolean;
+
+  disabled: boolean;
 }
 
 export interface ICheckboxState {
@@ -24,6 +26,8 @@ export interface ICheckboxProps extends IPressableProps {
   disabled?: boolean;
 
   label?: string;
+
+  onChange?: (isChecked: boolean) => void;
 }
 
 export interface ICheckboxSlotProps {

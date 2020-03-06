@@ -19,6 +19,7 @@ export const Checkbox = compose<ICheckboxType>({
     const data = useAsToggleCheckbox(defaultChecked == true ? true : false);
 
     const onPress = React.useCallback(() => {
+      userProps.onChange && userProps.onChange(!data.checked);
       data.onChange();
     }, [data, userProps]);
 
@@ -27,6 +28,7 @@ export const Checkbox = compose<ICheckboxType>({
     const state: ICheckboxState = {
       info: {
         ...pressable.state,
+        disabled: disabled || false,
         checked: data.checked
       }
     };
@@ -34,12 +36,20 @@ export const Checkbox = compose<ICheckboxType>({
     // Grab the styling information from the userProps, referencing the state as well as the props.
     const styleProps = useStyling(userProps, (override: string) => state.info[override] || userProps[override]);
 
+    let accessibilityStates: string[] = [];
+    if (state.info.disabled) {
+      accessibilityStates = ['disabled'];
+    } else if (state.info.checked) {
+      accessibilityStates = ['checked'];
+    }
+
     const slotProps = mergeSettings<ICheckboxSlotProps>(styleProps, {
       root: {
         rest,
         ...pressable.props,
         accessibilityRole: 'checkbox',
-        accessibilityLabel: ariaLabel ? ariaLabel : label
+        accessibilityLabel: ariaLabel ? ariaLabel : label,
+        accessibilityStates: accessibilityStates
         // Actions: 'Select' and "RemoveFromSelection"
       },
       content: { children: label }
