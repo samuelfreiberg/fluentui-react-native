@@ -4,6 +4,7 @@ import { IPressableState } from '@fluentui-native/interactive-hooks';
 import { ViewProps } from 'react-native';
 import { IRenderData } from '@uifabricshared/foundation-composable';
 import { ITextProps } from '@fluentui-native/text';
+import { ITextTokens, IForegroundColorTokens, IBackgroundColorTokens, IBorderTokens } from '@fluentui-native/tokens';
 import { IViewWin32Props } from '@office-iss/react-native-win32';
 
 export const checkboxName = 'Checkbox';
@@ -13,7 +14,8 @@ export interface ICheckboxInfo extends IPressableState {
 
   disabled: boolean;
 
-  boxSide: string;
+  // To allow overrides in .settings. 'start' || undefined = false and 'end' = true
+  boxSide: boolean;
 }
 
 export interface ICheckboxState {
@@ -44,10 +46,12 @@ export interface ICheckboxProps extends IPressableProps {
   onChange?: (isChecked: boolean) => void;
 }
 
+export interface ICheckboxTokens extends ITextTokens, IForegroundColorTokens, IBackgroundColorTokens, IBorderTokens {}
+
 export interface ICheckboxSlotProps {
   root: React.PropsWithRef<IViewWin32Props>;
   checkbox: ViewProps;
-  checkmark: ViewProps;
+  checkmark: ITextProps;
   content: ITextProps;
 }
 
@@ -55,7 +59,7 @@ export type ICheckboxRenderData = IRenderData<ICheckboxSlotProps, ICheckboxState
 
 export interface ICheckboxType {
   props: ICheckboxProps;
-  //tokens:
+  tokens: ICheckboxTokens;
   slotProps: ICheckboxSlotProps;
   state: ICheckboxState;
 }

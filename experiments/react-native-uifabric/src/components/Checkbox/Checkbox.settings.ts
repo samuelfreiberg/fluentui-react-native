@@ -3,6 +3,11 @@ import { checkboxName, ICheckboxType } from './Checkbox.types';
 
 export const settings: IComposeSettings<ICheckboxType> = [
   {
+    tokens: {
+      borderColor: 'menuItemText',
+      color: 'menuItemText',
+      backgroundColor: 'menuBackground'
+    },
     root: {
       accessible: true,
       acceptsKeyboardFocus: true,
@@ -21,8 +26,6 @@ export const settings: IComposeSettings<ICheckboxType> = [
         height: 20,
         width: 20,
         marginRight: 4,
-        backgroundColor: 'white',
-        borderColor: 'black',
         borderStyle: 'solid',
         borderWidth: 1,
         borderRadius: 2,
@@ -33,22 +36,31 @@ export const settings: IComposeSettings<ICheckboxType> = [
       style: {
         position: 'relative',
         opacity: 0,
-        height: 10,
-        width: 10,
-        backgroundColor: 'blue',
-        left: 4,
-        top: 4
+        left: 4
       }
     },
     content: {
       style: {
         fontSize: 14,
         marginLeft: 4,
-        lineHeight: 20
+        lineHeight: 20,
+        borderStyle: 'dashed',
+        borderColor: 'transparent',
+        borderWidth: 1
       }
     },
-    _precedence: ['disabled', 'checked', 'hovered'],
+    _precedence: ['disabled', 'boxSide', 'checked', 'hovered', 'focused', 'pressed'],
     _overrides: {
+      focused: {
+        tokens: {
+          backgroundColor: 'menuItemBackgroundHovered'
+        },
+        content: {
+          style: {
+            borderColor: 'rgba(128, 128, 128, 1)'
+          }
+        }
+      },
       checked: {
         checkmark: {
           style: {
@@ -57,10 +69,8 @@ export const settings: IComposeSettings<ICheckboxType> = [
         }
       },
       hovered: {
-        checkbox: {
-          style: {
-            backgroundColor: 'rgb(211,211,211)'
-          }
+        tokens: {
+          backgroundColor: 'menuItemBackgroundHovered'
         },
         _overrides: {
           checked: {
@@ -77,6 +87,19 @@ export const settings: IComposeSettings<ICheckboxType> = [
           borderColor: 'buttonBorderDisabled',
           color: 'disabledBodyText',
           backgroundColor: 'background'
+        }
+      },
+      boxSide: {
+        checkbox: {
+          style: {
+            marginLeft: 4,
+            marginRight: 0
+          }
+        }
+      },
+      pressed: {
+        tokens: {
+          backgroundColor: 'menuItemBackgroundPressed'
         }
       }
     }
