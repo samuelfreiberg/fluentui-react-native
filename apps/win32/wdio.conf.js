@@ -4,7 +4,9 @@ const appPath = path.resolve(path.dirname(require.resolve('@office-iss/rex-win32
 const appArgs = 'basePath ' + path.resolve('dist') + ' plugin defaultplugin bundle index component FluentTester';
 const appDir = path.dirname(require.resolve('@office-iss/rex-win32/rex-win32.js'));
 
-const baseUrl = 'https://webdriver.io';
+const defaultWaitForTimeout = 10000;
+const defaultConnectionRetryTimeout = 15000;
+const jasmineDefaultTimeout = 45000; // 45 seconds for Jasmine test timeout
 
 exports.config = {
   runner: 'local', // Where should your test be launched
@@ -21,8 +23,8 @@ exports.config = {
       deviceName: 'WindowsPC',
       app: appPath,
       appArguments: appArgs,
-      appWorkingDir: appDir
-    }
+      appWorkingDir: appDir,
+    },
   ],
 
   /*
@@ -36,9 +38,8 @@ exports.config = {
 
   // If you only want to run your tests until a specific amount of tests have failed use bail (default is 0 - don't bail, run all tests).
   bail: 0,
-  baseUrl: baseUrl, // Shorten url command calls by setting a base URL.
-  waitforTimeout: 10000, // Default timeout for all waitForXXX commands.
-  connectionRetryTimeout: 15000, // Timeout for any WebDriver request to a driver or grid.
+  waitforTimeout: defaultWaitForTimeout, // Default timeout for all waitForXXX commands.
+  connectionRetryTimeout: defaultConnectionRetryTimeout, // Timeout for any WebDriver request to a driver or grid.
   connectionRetryCount: 2, // Maximum count of request retries to the Selenium server.
 
   port: 4723, // default appium port
@@ -46,13 +47,13 @@ exports.config = {
   appium: {
     logPath: './reports/',
     args: {
-      port: '4723'
-    }
+      port: '4723',
+    },
   },
 
   framework: 'jasmine',
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 45000
+    defaultTimeoutInterval: jasmineDefaultTimeout,
   },
 
   reporters: ['spec'],
@@ -102,7 +103,7 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that are to be run
    */
-  before: function() {
+  before: function () {
     // not needed for Cucumber
     require('ts-node').register({ files: true });
     browser.maximizeWindow();
@@ -140,7 +141,7 @@ exports.config = {
   /**
    * Function to be executed after a test (in Mocha/Jasmine).
    */
-  afterTest: function(test) {
+  afterTest: function (test) {
     if (test.error !== undefined) {
       const name = 'ERROR-' + Date.now();
       browser.saveScreenshot('./reports/errorShots/' + name + '.png');
@@ -187,9 +188,9 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  onComplete: function(exitCode, config, capabilities, results) {
+  onComplete: function (exitCode, config, capabilities, results) {
     console.log('<<< TESTING FINISHED >>>');
-  }
+  },
   /**
    * Gets executed when a refresh happens.
    * @param {String} oldSessionId session ID of the old session
