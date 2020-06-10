@@ -14,10 +14,10 @@ const PAGE_TIMEOUT = 45000;
 
 // Before testing begins, allow 45 seconds for bundle to load (WebDriverIO)
 beforeAll(() => {
-  BootTestPage.waitForPageLoaded(PAGE_TIMEOUT);
+  BootTestPage.waitForPageDisplayed(PAGE_TIMEOUT);
 });
 
-describe('Click on each test page and check if it renders', function() {
+describe('Click on each test page and check if it renders', function () {
   it('Button Test Page', () => {
     BootTestPage.clickAndGoToButtonPage();
     expect(ButtonTestPage.isPageLoaded()).toBeTruthy();

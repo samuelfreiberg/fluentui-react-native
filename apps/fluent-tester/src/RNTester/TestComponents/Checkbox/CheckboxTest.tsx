@@ -15,13 +15,13 @@ const CircleColorCheckbox = Checkbox.customize({
       tokens: {
         checkboxBackgroundColor: 'green',
         checkboxBorderColor: 'green',
-        checkmarkColor: 'white'
-      }
+        checkmarkColor: 'white',
+      },
     },
     focused: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundHovered' } },
     hovered: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundHovered' } },
-    pressed: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundPressed' } }
-  }
+    pressed: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundPressed' } },
+  },
 });
 
 const HoverCheckbox = Checkbox.customize({
@@ -29,15 +29,15 @@ const HoverCheckbox = Checkbox.customize({
     checked: {
       tokens: {
         checkboxBackgroundColor: 'black',
-        checkmarkColor: 'white'
-      }
+        checkmarkColor: 'white',
+      },
     },
     hovered: {
       tokens: {
-        checkmarkVisibility: 1
-      }
-    }
-  }
+        checkmarkVisibility: 1,
+      },
+    },
+  },
 });
 
 function onChangeUncontrolled(isChecked: boolean) {
@@ -55,28 +55,28 @@ export const CheckboxTest: React.FunctionComponent<{}> = () => {
         tokens: {
           checkboxBackgroundColor: checkboxColor,
           checkboxBorderColor: checkboxColor,
-          checkmarkColor: checkmarkColor
-        }
+          checkmarkColor: checkmarkColor,
+        },
       },
       focused: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundHovered' } },
       hovered: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundHovered' } },
-      pressed: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundPressed' } }
-    }
+      pressed: { tokens: { checkboxBackgroundColor: 'menuItemBackgroundPressed' } },
+    },
   });
 
   const [isCheckedControlled1, setCheckedControlled1] = React.useState(false);
-  const onChangeControlled1 = React.useCallback(checked => {
+  const onChangeControlled1 = React.useCallback((checked) => {
     setCheckedControlled1(checked);
   }, []);
 
   const [isCheckedControlled2, setCheckedControlled2] = React.useState(true);
-  const onChangeControlled2 = React.useCallback(checked => {
+  const onChangeControlled2 = React.useCallback((checked) => {
     setCheckedControlled2(checked);
   }, []);
 
   const theme = useTheme();
   const textBoxBorderStyle = {
-    borderColor: theme.colors.inputBorder
+    borderColor: theme.colors.inputBorder,
   };
 
   return (
@@ -116,7 +116,7 @@ export const CheckboxTest: React.FunctionComponent<{}> = () => {
         style={[commonStyles.textBox, textBoxBorderStyle]}
         placeholder="Background color"
         blurOnSubmit={true}
-        onSubmitEditing={e => {
+        onSubmitEditing={(e) => {
           setCheckboxColor(e.nativeEvent.text);
         }}
       />
@@ -125,7 +125,7 @@ export const CheckboxTest: React.FunctionComponent<{}> = () => {
         style={[commonStyles.textBox, textBoxBorderStyle]}
         placeholder="Checkmark color"
         blurOnSubmit={true}
-        onSubmitEditing={e => {
+        onSubmitEditing={(e) => {
           setCheckmarkColor(e.nativeEvent.text);
         }}
       />
