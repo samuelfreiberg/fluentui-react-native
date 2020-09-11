@@ -4,6 +4,7 @@ import { ITextProps } from '@fluentui-react-native/text';
 import { IViewWin32Props } from '@office-iss/react-native-win32';
 import { IRenderData } from '@uifabricshared/foundation-composable';
 import { IForegroundColorTokens, FontTokens } from '@fluentui-react-native/tokens';
+import { IFocusable } from '@fluentui-react-native/interactive-hooks';
 
 export const radioGroupName = 'RadioGroup';
 
@@ -45,6 +46,11 @@ export interface IRadioGroupProps {
   onChange?: (key: string) => void;
 
   testID?: string;
+
+  /**
+   * A RefObject to access the IRadioGroup interface. Use this to access the public methods and properties of the component.
+   */
+  componentRef?: React.RefObject<IFocusable>;
 }
 
 export interface IRadioGroupTokens extends IForegroundColorTokens, FontTokens {}

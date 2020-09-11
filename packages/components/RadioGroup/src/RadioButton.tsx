@@ -10,7 +10,7 @@ import { ISlots, withSlots } from '@uifabricshared/foundation-composable';
 import { settings, radioButtonSelectActionLabel } from './RadioButton.settings';
 import { mergeSettings } from '@uifabricshared/foundation-settings';
 import { foregroundColorTokens, textTokens, borderTokens, backgroundColorTokens } from '@fluentui-react-native/tokens';
-import { useAsPressable } from '@fluentui-react-native/interactive-hooks';
+import { useAsPressable, useViewCommandFocus } from '@fluentui-react-native/interactive-hooks';
 import { RadioGroupContext } from './RadioGroup';
 
 export const RadioButton = compose<IRadioButtonType>({
@@ -23,6 +23,8 @@ export const RadioButton = compose<IRadioButtonType>({
     const info = React.useContext(RadioGroupContext);
 
     const pressable = useAsPressable(rest);
+
+    const buttonRef = useViewCommandFocus(userProps.componentRef);
 
     // Used when creating accessibility properties in mergeSettings below
     const onAccessibilityAction = React.useCallback(
@@ -67,6 +69,7 @@ export const RadioButton = compose<IRadioButtonType>({
       root: {
         rest,
         ...pressable.props,
+        ref: buttonRef,
         onFocus: onFocusChange,
         accessibilityRole: 'radio',
         accessibilityLabel: ariaLabel ? ariaLabel : content,

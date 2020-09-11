@@ -9,7 +9,7 @@ import {
   IRadioGroupState,
   IRadioGroupSlotProps,
   IRadioGroupRenderData,
-  IRadioGroupContext
+  IRadioGroupContext,
 } from './RadioGroup.types';
 import { compose, IUseComposeStyling } from '@uifabricshared/foundation-compose';
 import { ISlots, withSlots } from '@uifabricshared/foundation-composable';
@@ -17,7 +17,7 @@ import { filterViewProps } from '@fluentui-react-native/adapters';
 import { settings } from './RadioGroup.settings';
 import { mergeSettings } from '@uifabricshared/foundation-settings';
 import { foregroundColorTokens, textTokens } from '@fluentui-react-native/tokens';
-import { useSelectedKey } from '@fluentui-react-native/interactive-hooks';
+import { useSelectedKey, useViewCommandFocus } from '@fluentui-react-native/interactive-hooks';
 
 export const RadioGroupContext = React.createContext<IRadioGroupContext>({
   selectedKey: null,
@@ -35,6 +35,8 @@ export const RadioGroup = compose<IRadioGroupType>({
     // This hook updates the Selected Button and calls the customer's onClick function. This gets called after a button is pressed.
     const data = useSelectedKey(userProps.defaultSelectedKey || null, userProps.onChange);
 
+    const radioGroupRef = useViewCommandFocus(userProps.componentRef);
+
     const state: IRadioGroupState = {
       context: {
         selectedKey: data.selectedKey,
@@ -50,7 +52,7 @@ export const RadioGroup = compose<IRadioGroupType>({
     };
 
     const slotProps = mergeSettings<IRadioGroupSlotProps>(styleProps, {
-      root: { rest, ...ariaRoles },
+      root: { rest, ref: radioGroupRef, ...ariaRoles },
       label: { children: label }
     });
 
