@@ -22,7 +22,7 @@ export const RadioButton = compose<IRadioButtonType>({
     // Grabs the context information from RadioGroup (currently selected button and client's onChange callback)
     const info = React.useContext(RadioGroupContext);
 
-    /* We don't want to call the user's onChange multiple times on the same selection */
+    /* We don't want to call the user's onChange multiple times on the same selection. */
     const changeSelection = () => {
       if(buttonKey != info.selectedKey)
         info.onChange && info.onChange(buttonKey);
