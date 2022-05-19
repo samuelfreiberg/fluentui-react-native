@@ -2496,13 +2496,13 @@
     chalk "^4.1.0"
 
 "@rnx-kit/dep-check@^1.10.1", "@rnx-kit/dep-check@^1.9.5":
-  version "1.12.6"
-  resolved "https://registry.yarnpkg.com/@rnx-kit/dep-check/-/dep-check-1.12.6.tgz#19d11d4ff57e70e96a670c75559b43ac10c4677e"
-  integrity sha512-tlc4RkV7KzmF9/UMJEPLvuY5gfXCGbLf5aifFRY4G86BWWd+uL4oWBYZ5LWMhS1jz7xKbkEf87iBMKmxod7jng==
+  version "1.12.14"
+  resolved "https://registry.yarnpkg.com/@rnx-kit/dep-check/-/dep-check-1.12.14.tgz#66f30a66e2e0973eb89e3386dd87d607331f82bf"
+  integrity sha512-Y2s/JLMDPp/dUhqXQLtHXuIBtugDJGz72Y3giulXtIXayhxGLJguRt9u6zeK0VH5bm8koe3kwVfL+sk5qbNY9Q==
   dependencies:
     "@rnx-kit/console" "^1.0.11"
     "@rnx-kit/tools-language" "^1.2.6"
-    "@rnx-kit/tools-node" "^1.2.6"
+    "@rnx-kit/tools-node" "^1.2.7"
 
 "@rnx-kit/eslint-plugin@^0.2.8":
   version "0.2.11"
@@ -2591,10 +2591,10 @@
   resolved "https://registry.yarnpkg.com/@rnx-kit/tools-language/-/tools-language-1.2.6.tgz#ced63a53ce9821d14acb57a927237e5c39801387"
   integrity sha512-8pq4JlFIkOqjwkN6amYebQ2CTAa1EeYjSBurGh8upYZtqUZBXDOK7FUAx+OVHs/7qQfmF2lU7QpqA7DZGv4xJA==
 
-"@rnx-kit/tools-node@^1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@rnx-kit/tools-node/-/tools-node-1.2.6.tgz#34de31b1c2ec681a3009b27c137cc1f2c57b7e9c"
-  integrity sha512-oiVbP801aabLCBl42l448QPlui/SEQcuWURZOmVbg04ntyLGgUNgYN87Zen+2yr/LnnI2ec1SOtftHbK6Ro+5A==
+"@rnx-kit/tools-node@^1.2.6", "@rnx-kit/tools-node@^1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@rnx-kit/tools-node/-/tools-node-1.2.7.tgz#ae702763d26fc9b5a0984c5fddd90e38e03b06a1"
+  integrity sha512-vgURBJttO8z1nSrJm3KWgzEO3/oat5Rn/Fx2b9XyEf7y2CzJh1fwf48XddDnzmSKFNd/SihP7hDcVcEqZ/evCQ==
   dependencies:
     "@rnx-kit/tools-language" "^1.2.6"
     find-up "^5.0.0"
