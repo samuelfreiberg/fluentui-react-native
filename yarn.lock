@@ -2525,13 +2525,13 @@
     find-up "^5.0.0"
 
 "@rnx-kit/metro-config@^1.2.26":
-  version "1.2.28"
-  resolved "https://registry.yarnpkg.com/@rnx-kit/metro-config/-/metro-config-1.2.28.tgz#9fd703f369c31c6672887653ee066d60f02ac138"
-  integrity sha512-efe1hwqsZGxTQwPvHzIvZWmD86R+U3/jbuWQkJwytnhdZ5jWOzdrUHBrMIEitOwFaq8smInR/WN2UFcsFsWEOA==
+  version "1.2.32"
+  resolved "https://registry.yarnpkg.com/@rnx-kit/metro-config/-/metro-config-1.2.32.tgz#7e4139ac95d5d6c9b8158689368b5460f2857561"
+  integrity sha512-ECJPK5A0arRkx9eGIcMXnLu8ZM8BmjW19kfYz+EOJdEoNRcUkPC7edyomH83PTouEYg7OCQ3bQK1R7Zb6ysoFA==
   dependencies:
     "@rnx-kit/babel-preset-metro-react-native" "^1.0.17"
-    "@rnx-kit/tools-node" "^1.2.6"
-    workspace-tools "^0.18.2"
+    "@rnx-kit/tools-node" "^1.2.7"
+    workspace-tools "^0.18.3"
 
 "@rnx-kit/metro-plugin-cyclic-dependencies-detector@^1.0.21":
   version "1.0.21"
@@ -2591,10 +2591,10 @@
   resolved "https://registry.yarnpkg.com/@rnx-kit/tools-language/-/tools-language-1.2.6.tgz#ced63a53ce9821d14acb57a927237e5c39801387"
   integrity sha512-8pq4JlFIkOqjwkN6amYebQ2CTAa1EeYjSBurGh8upYZtqUZBXDOK7FUAx+OVHs/7qQfmF2lU7QpqA7DZGv4xJA==
 
-"@rnx-kit/tools-node@^1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@rnx-kit/tools-node/-/tools-node-1.2.6.tgz#34de31b1c2ec681a3009b27c137cc1f2c57b7e9c"
-  integrity sha512-oiVbP801aabLCBl42l448QPlui/SEQcuWURZOmVbg04ntyLGgUNgYN87Zen+2yr/LnnI2ec1SOtftHbK6Ro+5A==
+"@rnx-kit/tools-node@^1.2.6", "@rnx-kit/tools-node@^1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@rnx-kit/tools-node/-/tools-node-1.2.7.tgz#ae702763d26fc9b5a0984c5fddd90e38e03b06a1"
+  integrity sha512-vgURBJttO8z1nSrJm3KWgzEO3/oat5Rn/Fx2b9XyEf7y2CzJh1fwf48XddDnzmSKFNd/SihP7hDcVcEqZ/evCQ==
   dependencies:
     "@rnx-kit/tools-language" "^1.2.6"
     find-up "^5.0.0"
@@ -12349,9 +12349,9 @@ react-native-codegen@^0.0.6:
     nullthrows "^1.1.1"
 
 react-native-macos@^0.64.0, react-native-macos@^0.64.6:
-  version "0.64.29"
-  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.64.29.tgz#9e302e000fe98403a6ef54961b5c7a1f569f936f"
-  integrity sha512-T2RtLeyMBTskTHshNao/dve41LFshFSSFDygjRszyEI1led1Alz3jBCC5SQCgjPBX+RlPa4lMkmT9bon0p0ECw==
+  version "0.64.30"
+  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.64.30.tgz#b2398677d421ce84476c355373539bbd9723829a"
+  integrity sha512-lhp7Imx+bERzOtwnWlyl/382CjIHid5KtWnjMVz+P7x71N/bGQx90ok3KOyN5BqjNnPE8WDTTYnDN/QMDrsJNA==
   dependencies:
     "@jest/create-cache-key-function" "^26.5.0"
     "@react-native-community/cli" "^5.0.1-alpha.1"
@@ -14826,10 +14826,10 @@ workspace-tools@^0.16.2:
     multimatch "^4.0.0"
     read-yaml-file "^2.0.0"
 
-workspace-tools@^0.18.2:
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/workspace-tools/-/workspace-tools-0.18.2.tgz#59753b5fb7c709f72250c8fbf5ccfe1903033a7d"
-  integrity sha512-XEW7VrD5XmYNLli89cHGQESf6Jgh45ELlKJQHbAAwd67XfC+Tf+hpJZ+GLFsKPIzJ+xIUvnJE6F71ScsMfu7KA==
+workspace-tools@^0.18.2, workspace-tools@^0.18.3:
+  version "0.18.4"
+  resolved "https://registry.yarnpkg.com/workspace-tools/-/workspace-tools-0.18.4.tgz#a59ca6dc864d07aafc06a9ff4a9ff093456b8765"
+  integrity sha512-ZdhlB4NEC3uJ4eW7snyHKOfzMC00HXWO2QbIU3aY8XBdtE+VrU2ajv+oxDUIZfCLD4Wlk3ltWaPt4Jk6IC9bMA==
   dependencies:
     "@yarnpkg/lockfile" "^1.1.0"
     find-up "^4.1.0"
