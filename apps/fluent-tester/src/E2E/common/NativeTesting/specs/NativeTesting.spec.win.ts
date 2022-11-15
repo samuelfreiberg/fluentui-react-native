@@ -23,6 +23,6 @@ describe('Native Safety Check Testing Initialization', () => {
   // navigate to each test page. Validate these children exist with the proper testId format.
   it('Validate the children of ScrollView are the buttons that navigate to each test page with proper automationId', async () => {
     await NativeTestingPageObject.waitForScrollViewDisplayed(PAGE_TIMEOUT);
-    await expect(await NativeTestingPageObject.validateScrollViewChildren()).toBeTruthy();
+    await NativeTestingPageObject.validateScrollViewChildren();
   });
 });
