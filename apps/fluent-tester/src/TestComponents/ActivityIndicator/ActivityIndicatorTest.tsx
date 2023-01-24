@@ -1,68 +1,75 @@
 import * as React from 'react';
-import { ActivityIndicator } from '@fluentui-react-native/experimental-activity-indicator';
 import { Text } from '@fluentui/react-native';
-import { Stack } from '@fluentui-react-native/stack';
-import { stackStyle, commonTestStyles as commonStyles } from '../Common/styles';
 import { Test, TestSection, PlatformStatus } from '../Test';
 import { ACTIVITY_INDICATOR_TESTPAGE } from '../../../../E2E/src/ActivityIndicator/consts';
-import { View, Switch } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 
-const BasicActivityIndicator: React.FunctionComponent = () => {
-  const [animating, setAnimating] = React.useState(true);
-  const [hidesWhenStopped, setHidesWhenStopped] = React.useState(true);
-
-  return (
-    <Stack style={stackStyle}>
-      <View style={commonStyles.root}>
-        <View style={commonStyles.settings}>
-          <View style={commonStyles.switch}>
-            <Text>Animating</Text>
-            <Switch value={animating} onValueChange={setAnimating} />
-          </View>
-          <View style={commonStyles.switch}>
-            <Text>HidesWhenStopped</Text>
-            <Switch value={hidesWhenStopped} onValueChange={setHidesWhenStopped} />
-          </View>
-        </View>
-        <ActivityIndicator animating={animating} hidesWhenStopped={hidesWhenStopped} />
-      </View>
-    </Stack>
-  );
-};
-
-const ActivityIndicatorMainTest: React.FunctionComponent = () => {
-  return (
-    <Stack style={stackStyle}>
-      <Text>Extra Small</Text>
-      <ActivityIndicator size="xSmall" />
-      <Text>Small</Text>
-      <ActivityIndicator size="small" />
-      <Text>Medium</Text>
-      <ActivityIndicator size="medium" />
-      <Text>Large</Text>
-      <ActivityIndicator size="large" />
-      <Text>Extra Large</Text>
-      <ActivityIndicator size="xLarge" />
-
-      <Text>Size=xLarge and Line Thickness=large</Text>
-      <ActivityIndicator size="xLarge" lineThickness="large" />
-      <Text>Color props</Text>
-      <ActivityIndicator activityIndicatorColor="orange" accessibilityLabel="orange progressbar" />
-    </Stack>
-  );
-};
-
-const CustomizedActivityIndicator = ActivityIndicator.customize({
-  activityIndicatorColor: 'orange',
-  size: 'large',
+const styles = StyleSheet.create({
+  root: {
+    height: '100%',
+    flexDirection: 'row',
+    marginVertical: 5,
+  },
+  testRoot1: {
+    maxHeight: 200,
+    flex: 1,
+    width: 100,
+  },
+  testRoot2: {
+    maxHeight: 500,
+    flex: 1,
+    width: 100,
+  },
+  testRoot3: {
+    maxHeight: 1000,
+    flex: 1,
+    width: 100,
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+  },
+  text: {
+    fontSize: 42,
+  },
 });
 
-const CustomizedActivityIndicatorTest: React.FunctionComponent = () => {
+const BasicActivityIndicator: React.FunctionComponent = () => {
   return (
-    <Stack style={stackStyle}>
-      <Text>Customized Activity Indicator</Text>
-      <CustomizedActivityIndicator />
-    </Stack>
+    <View style={styles.root}>
+      <View style={styles.testRoot1}>
+        <ScrollView style={styles.scrollView}>
+          <Text style={styles.text}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          </Text>
+        </ScrollView>
+      </View>
+      <View style={styles.testRoot2}>
+        <ScrollView style={styles.scrollView}>
+          <Text style={styles.text}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          </Text>
+        </ScrollView>
+      </View>
+      <View style={styles.testRoot3}>
+        <ScrollView style={styles.scrollView}>
+          <Text style={styles.text}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          </Text>
+        </ScrollView>
+      </View>
+    </View>
   );
 };
 
@@ -71,16 +78,6 @@ const activityIndicatorSections: TestSection[] = [
     name: 'Base ActivityIndicator',
     testID: ACTIVITY_INDICATOR_TESTPAGE,
     component: BasicActivityIndicator,
-  },
-  {
-    name: 'ActivityIndicator',
-    testID: ACTIVITY_INDICATOR_TESTPAGE,
-    component: ActivityIndicatorMainTest,
-  },
-  {
-    name: 'Customized ActivityIndicator',
-    testID: ACTIVITY_INDICATOR_TESTPAGE,
-    component: CustomizedActivityIndicatorTest,
   },
 ];
 
