@@ -5,6 +5,7 @@ import type { FocusZoneDirection } from '@fluentui/react-native';
 import { FocusZone, MenuButton, Text } from '@fluentui/react-native';
 import type { ButtonProps } from '@fluentui-react-native/button';
 import { ButtonV1 as Button } from '@fluentui-react-native/button';
+import { Input } from '@fluentui-react-native/input';
 import { Switch } from '@fluentui-react-native/switch';
 
 import { focusZoneTestStyles, GridButton } from './styles';
@@ -90,6 +91,7 @@ export const FocusZone2D: React.FunctionComponent = () => {
   const [isCircularNav, setIsCircularNav] = React.useState(false);
   const [useDeffaultTabbableElement, setUseDeffaultTabbableElement] = React.useState(false);
   const [direction, setDirection] = React.useState<FocusZoneDirection>('bidirectional');
+  const [isTabKeyNavigation, setisTabKeyNavigation] = React.useState('None');
 
   const tabbableRef = React.useRef(null);
 
@@ -142,6 +144,13 @@ export const FocusZone2D: React.FunctionComponent = () => {
           /* For Android E2E testing purposes, testProps must be passed in after accessibilityLabel. */
           {...testProps(FOCUSZONE_DEFAULT_TABBABLE_SWITCH)}
         />
+        <Input
+          placeholder="None"
+          label="None"
+          onChange={(text: string) => {
+            setisTabKeyNavigation(text);
+          }}
+        />
       </View>
 
       <FocusZoneListWrapper beforeID={FOCUSZONE_GRID_BEFORE} afterID={FOCUSZONE_GRID_AFTER}>
@@ -151,6 +160,7 @@ export const FocusZone2D: React.FunctionComponent = () => {
           focusZoneDirection={direction}
           isCircularNavigation={isCircularNav}
           defaultTabbableElement={useDeffaultTabbableElement ? tabbableRef : undefined}
+          tabKeyNavigation={isTabKeyNavigation}
         >
           <GridOfButtons gridWidth={3} gridHeight={3} tabRef={tabbableRef} tabbableIdx={4} e2etesting />
         </FocusZone>

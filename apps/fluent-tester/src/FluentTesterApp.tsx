@@ -1,58 +1,90 @@
 'use strict';
 
 import * as React from 'react';
-import { Platform } from 'react-native';
+import { View, FlatList, StyleSheet, Text, Button } from 'react-native';
 
-import { useHorizontalSizeClass } from '@fluentui-react-native/experimental-appearance-additions';
-import { ThemeReference, ThemeProvider } from '@fluentui-react-native/theme';
+import { FocusZone } from '@fluentui/react-native';
 
 import type { FluentTesterProps } from './FluentTester';
-import { FluentTester } from './FluentTester';
-import { testerTheme } from './theme/index';
 
-export const FluentTesterApp: React.FunctionComponent<FluentTesterProps> = (props) => {
-  const sizeClass = useHorizontalSizeClass();
-  const isMobile = Platform.OS === 'android' || (Platform.OS === 'ios' && Platform.isPad === false);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    maxWidth: 200,
+    maxHeight: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  item: {
+    backgroundColor: '#f0f0f0',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+});
 
-  // If on iPad we are presented in a Split View or Slide Over context, show the single pane view.
-  const shouldShowSinglePane = isMobile || (!isMobile && sizeClass === 'compact');
+export const FluentTesterApp: React.FunctionComponent<FluentTesterProps> = () => {
+  //const scrollerRef = React.createRef<FlatList>();
+  const flatListContainerStyle = { padding: 10 };
 
-  const customTheme = new ThemeReference(
-    testerTheme,
-    () => {
-      return {
-        colors: { brandBackground2: 'red' }, // Overrides the buttonBackground color token, all other colors are kept in-tact.
-      };
-    },
-    () => {
-      return {
-        colors: {
-          hostColorPink: 'pink', // New custom color key.
-          hostColorBrandText: 'purple', // New custom color key.
-          hostColorButtonBackground: 'yellow', // New custom color key.
-        },
-        spacing: {
-          s1: '10px',
-        },
-      };
-    },
-    () => {
-      // Any other recipe.
-      return {
-        colors: {
-          yellowBrandColor: 'yellow', // New custom color key.
-          hostColorButtonBackground: 'green', // Overrides custom color key 'hostColorButtonBackground' - it is green in theme now.
-        },
-      };
-    },
+  // Sample data
+  const data = [
+    { id: '1', text: 'Item 1' },
+    { id: '2', text: 'Item 2' },
+    { id: '3', text: 'Item 3' },
+    { id: '4', text: 'Item 4' },
+    { id: '5', text: 'Item 5' },
+    { id: '1', text: 'Item 1' },
+    { id: '2', text: 'Item 2' },
+    { id: '3', text: 'Item 3' },
+    { id: '4', text: 'Item 4' },
+    { id: '5', text: 'Item 5' },
+    { id: '1', text: 'Item 1' },
+    { id: '2', text: 'Item 2' },
+    { id: '3', text: 'Item 3' },
+    { id: '4', text: 'Item 4' },
+    { id: '5', text: 'Item 5' },
+    { id: '1', text: 'Item 1' },
+    { id: '2', text: 'Item 2' },
+    { id: '3', text: 'Item 3' },
+    { id: '4', text: 'Item 4' },
+    { id: '5', text: 'Item 5' },
+    { id: '1', text: 'Item 1' },
+    { id: '2', text: 'Item 2' },
+    { id: '3', text: 'Item 3' },
+    { id: '4', text: 'Item 4' },
+    { id: '5', text: 'Item 5' },
+    { id: '1', text: 'Item 1' },
+    { id: '2', text: 'Item 2' },
+    { id: '3', text: 'Item 3' },
+    { id: '4', text: 'Item 4' },
+    { id: '5', text: 'Item 5' },
+    { id: '1', text: 'Item 1' },
+    { id: '2', text: 'Item 2' },
+    { id: '3', text: 'Item 3' },
+    { id: '4', text: 'Item 4' },
+    { id: '5', text: 'Item 5' },
+  ];
+
+  const renderItem = ({ item }: { item: { id: string; text: string } }) => (
+    <View style={styles.item}>
+      <Text>{item.text}</Text>
+    </View>
   );
 
-  // Use the custom colors for Android and iOS.
-  const fluentTesterTheme: ThemeReference = isMobile ? customTheme : testerTheme;
-
   return (
-    <ThemeProvider theme={fluentTesterTheme}>
-      <FluentTester enableSinglePaneView={shouldShowSinglePane} {...props} />
-    </ThemeProvider>
+    <View style={{ flex: 1, flexGrow: 1, flexShrink: 1 }}>
+      <View style={{ flex: 1, flexGrow: 1, flexShrink: 1 }}>
+        <Button title="Header" />
+        <View style={{ flex: 1, maxWidth: 200 }}>
+          <FocusZone>
+            <FlatList contentContainerStyle={flatListContainerStyle} data={data} renderItem={renderItem} />
+          </FocusZone>
+        </View>
+      </View>
+      <Button title="Footer" />
+    </View>
   );
 };
