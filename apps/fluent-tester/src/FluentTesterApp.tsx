@@ -29,6 +29,12 @@ export const FluentTesterApp: React.FunctionComponent<FluentTesterProps> = () =>
   //const scrollerRef = React.createRef<FlatList>();
   const flatListContainerStyle = { padding: 10 };
 
+  const [fzVisible, setFzVisible] = React.useState(false);
+
+  const showFz = () => {
+    setFzVisible(!fzVisible);
+  };
+
   // Sample data
   const data = [
     { id: '1', text: 'Item 1' },
@@ -76,12 +82,17 @@ export const FluentTesterApp: React.FunctionComponent<FluentTesterProps> = () =>
 
   return (
     <View style={{ flex: 1, flexGrow: 1, flexShrink: 1 }}>
+      <Button title="Show FocusZone" onPress={showFz} />
       <View style={{ flex: 1, flexGrow: 1, flexShrink: 1 }}>
         <Button title="Header" />
         <View style={{ flex: 1, maxWidth: 200 }}>
-          <FocusZone>
+          {fzVisible ? (
+            <FocusZone>
+              <FlatList contentContainerStyle={flatListContainerStyle} data={data} renderItem={renderItem} />
+            </FocusZone>
+          ) : (
             <FlatList contentContainerStyle={flatListContainerStyle} data={data} renderItem={renderItem} />
-          </FocusZone>
+          )}
         </View>
       </View>
       <Button title="Footer" />
