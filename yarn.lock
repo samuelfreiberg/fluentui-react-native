@@ -5015,8 +5015,8 @@ __metadata:
   linkType: hard
 
 "@react-native-community/cli@npm:^10.0.0":
-  version: 10.2.5
-  resolution: "@react-native-community/cli@npm:10.2.5"
+  version: 10.2.6
+  resolution: "@react-native-community/cli@npm:10.2.6"
   dependencies:
     "@react-native-community/cli-clean": ^10.1.1
     "@react-native-community/cli-config": ^10.1.1
@@ -5037,7 +5037,7 @@ __metadata:
     semver: ^6.3.0
   bin:
     react-native: build/bin.js
-  checksum: 2495d79ef7db8752d173c58fb1a4b54821a122b71cc8e51bb1f85c6ad801378b75bbb3972ab7425d0c699fa3716f319c89506e8d6d88a98651807f475c61e3fc
+  checksum: 0dd0a8ac00b9c8f1956a3478f20766ba08dabaf9999077a136531716c05f01d2baf8613f75a8715400338a2a4dad115d45b19d3f659f5f93dd6d5f02059afd48
   languageName: node
   linkType: hard
 
