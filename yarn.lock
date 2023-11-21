@@ -7769,10 +7769,10 @@ __metadata:
   linkType: hard
 
 "appium-windows-driver@npm:^2.12.0":
-  version: 2.12.9
-  resolution: "appium-windows-driver@npm:2.12.9"
+  version: 2.12.13
+  resolution: "appium-windows-driver@npm:2.12.13"
   dependencies:
-    asyncbox: ^2.3.1
+    asyncbox: ^3.0.0
     bluebird: ^3.5.1
     es6-error: ^4.1.1
     fancy-log: ^2.0.0
@@ -7786,7 +7786,7 @@ __metadata:
   dependenciesMeta:
     koffi:
       optional: true
-  checksum: 66aefec584e56dbedb8d0d231a9ef92532491f2d61171840686fa0ba5134a6158a5e87db3823c5220290ed46d8695fc5f195231a2bd6f68de2f12cc172e3a22c
+  checksum: f1fbefd28e3046fb4d2be9b676ea65aa84e607bdc16c34016cbf7270224908422a2e141989c4a98fd1ae28df20fb7b6880c6e7494dcbd669367f56e8b000004e
   languageName: node
   linkType: hard
 
@@ -8437,6 +8437,17 @@ __metadata:
     lodash: ^4.17.4
     source-map-support: ^0.5.5
   checksum: 74b8aa95596acffbf2321a1a20610707542003821b3771e3f596f933afca4bd60551b462c909933d9008ecdb075b1479368b1f23cae29a63cbd58c55612edbce
+  languageName: node
+  linkType: hard
+
+"asyncbox@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "asyncbox@npm:3.0.0"
+  dependencies:
+    bluebird: ^3.5.1
+    lodash: ^4.17.4
+    source-map-support: ^0.x
+  checksum: 662f4617c03857f146a1b730175b85fd824f11b30dab42be0fe6a17bf10b3d488ef468e6f73c38760f9058a4815f0d919eda6f3460fb0e2f591e8249b1d9ad2a
   languageName: node
   linkType: hard
 
