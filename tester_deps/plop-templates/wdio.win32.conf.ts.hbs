@@ -1,4 +1,5 @@
-let nativeWindowHandle,
+{{!-- IMPORTANT - This portion is needed when running in the OMR CI Pipeline. But it's not needed locally, you can just change the values yourself --}}
+{{!-- let nativeWindowHandle,
   specPath,
   resultsPath = "";
 const myArgs = process.argv.slice(3);
@@ -17,11 +18,20 @@ if (
     "ERROR! When running this file, you must pass in additional parameters. specPath, resultsPath, and (appDirectory OR nativeWindowHandle). In the form of: 'wdioScript specPath C://path/to/specs resultsPath C://path/to/results {appDirectory C://path/to/app OR nativeWindowHandle 0x756h372}'"
   );
   process.exit(1);
+} --}}
+
+{{!-- This portion allows you to run the tests straight out the gate. You can remove this and modify the value on line 37 manually if you'd like. --}}
+const myArgs = process.argv.slice(1);
+let nativeWindowHandle = "";
+if (
+  myArgs[0] === "nativeWindowHandle"
+) {
+  nativeWindowHandle = myArgs[1];
 }
 
 export const config: WebdriverIO.Config = {
   runner: "local",
-  specs: [specPath],
+  specs: ["./src/specs/*.spec.ts"],
   capabilities: [
     {
       maxInstances: 1,
@@ -44,7 +54,7 @@ export const config: WebdriverIO.Config = {
     [
       "appium",
       {
-        logPath: resultsPath,
+        logPath: "./test-results/",
       },
     ],
   ],
@@ -56,7 +66,7 @@ export const config: WebdriverIO.Config = {
     [
       "json",
       {
-        outputDir: resultsPath,
+        outputDir: "./test-results/",
         outputFileFormat: (opts) =>
           `results-${opts.cid}.${opts.capabilities}.json`,
       },
