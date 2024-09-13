@@ -1,5 +1,5 @@
-{{!-- IMPORTANT - This portion is needed when running in the OMR CI Pipeline. But it's not needed locally, you can just change the values yourself --}}
-{{!-- let nativeWindowHandle,
+// IMPORTANT - This portion is needed when running in the OMR CI Pipeline. But it's not needed locally, you can just change the values yourself
+/* let nativeWindowHandle,
   specPath,
   resultsPath = "";
 const myArgs = process.argv.slice(3);
@@ -18,9 +18,9 @@ if (
     "ERROR! When running this file, you must pass in additional parameters. specPath, resultsPath, and (appDirectory OR nativeWindowHandle). In the form of: 'wdioScript specPath C://path/to/specs resultsPath C://path/to/results {appDirectory C://path/to/app OR nativeWindowHandle 0x756h372}'"
   );
   process.exit(1);
-} --}}
+} */
 
-{{!-- This portion allows you to run the tests straight out the gate. You can remove this and modify the value on line 37 manually if you'd like. --}}
+// This portion allows you to run the tests straight out the gate. You can remove this and modify the value on line 37 manually if you'd like.
 const myArgs = process.argv.slice(1);
 let nativeWindowHandle = "";
 if (
@@ -101,7 +101,7 @@ export const config: WebdriverIO.Config = {
     let fileName = test.description?.replace(/\s+/g, '-');
     fileName = fileName.replace(/[^a-z0-9\-]/gi, '_').toLowerCase();
 
-    const filePath = resultsPath + "\\" + fileName + ".png";
+    const filePath = "./test-results/" + fileName + ".png";
     await browser.saveScreenshot(filePath);
   },
 

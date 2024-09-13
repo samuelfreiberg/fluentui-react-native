@@ -40,7 +40,7 @@ module.exports = function (plop) {
 
           // Add a script to run WebDriverIO tests
           packageJson.scripts = packageJson.scripts || {};
-          packageJson.scripts['wdio:test'] = 'wdio run wdio.win32.conf.ts';
+          packageJson.scripts['wdio:test'] = 'wdio run wdio.win32.conf.ts nativeWindowHandle <enterNativeWindowHandleHere>';
 
           // Return the updated package.json content as a string
           return JSON.stringify(packageJson, null, 2);
