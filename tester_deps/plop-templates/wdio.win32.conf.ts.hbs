@@ -1,0 +1,102 @@
+let nativeWindowHandle,
+  specPath,
+  resultsPath = "";
+const myArgs = process.argv.slice(3);
+
+if (
+  myArgs.length === 6 &&
+  myArgs[0] === "specPath" &&
+  myArgs[2] === "resultsPath" &&
+  myArgs[4] === "nativeWindowHandle"
+) {
+  specPath = myArgs[1];
+  resultsPath = myArgs[3];
+  nativeWindowHandle = myArgs[5];
+} else {
+  console.error(
+    "ERROR! When running this file, you must pass in additional parameters. specPath, resultsPath, and (appDirectory OR nativeWindowHandle). In the form of: 'wdioScript specPath C://path/to/specs resultsPath C://path/to/results {appDirectory C://path/to/app OR nativeWindowHandle 0x756h372}'"
+  );
+  process.exit(1);
+}
+
+export const config: WebdriverIO.Config = {
+  runner: "local",
+  specs: [specPath],
+  capabilities: [
+    {
+      maxInstances: 1,
+      platformName: "windows",
+      hostname: "127.0.0.1",
+      "appium:automationName": "windows",
+      "appium:deviceName": "WindowsPC",
+      "appium:appTopLevelWindow": nativeWindowHandle,
+    },
+  ],
+  logLevel: "debug",
+  bail: 0,
+  waitforTimeout: 10000,
+  connectionRetryTimeout: 30000,
+  connectionRetryCount: 2,
+  specFileRetries: 0,
+
+  port: 4723,
+  services: [
+    [
+      "appium",
+      {
+        logPath: resultsPath,
+      },
+    ],
+  ],
+
+  framework: "jasmine",
+
+  reporters: [
+    "spec",
+    [
+      "json",
+      {
+        outputDir: resultsPath,
+        outputFileFormat: (opts) =>
+          `results-${opts.cid}.${opts.capabilities}.json`,
+      },
+    ],
+  ],
+  jasmineOpts: {
+    defaultTimeoutInterval: 60000,
+  },
+
+  autoCompileOpts: {
+    autoCompile: true,
+
+    tsNodeOpts: {
+      files: true,
+    },
+  },
+
+  afterTest: async (test, context, results) => {
+    const resultString = results.passed ? "Passed" : "Failed";
+    console.log(
+      `\nTest Case: "${
+        test.description
+      }".\nResult: "${resultString}".\nDuration: "${(
+        results.duration / 600
+      ).toFixed(2)}s". \n`
+    );
+
+    if (results.passed) {
+      return;
+    }
+
+    let fileName = test.description?.replace(/\s+/g, '-');
+    fileName = fileName.replace(/[^a-z0-9\-]/gi, '_').toLowerCase();
+
+    const filePath = resultsPath + "\\" + fileName + ".png";
+    await browser.saveScreenshot(filePath);
+  },
+
+  onComplete: function () {
+    const mergeResults = require("@wdio/json-reporter/mergeResults");
+    mergeResults(resultsPath, "results-*", "finalTestResults.json");
+  },
+};
