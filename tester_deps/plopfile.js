@@ -74,7 +74,19 @@ module.exports = function (plop) {
             return 'File does not exist, so it cannot be modified.';
           }
         }
-      }
+      },
+      {
+        type: 'add',
+        path: 'src/specs/example.spec.ts',
+        templateFile: 'plop-templates/specs/ExampleSpec.spec.ts.hbs',
+        abortOnFail: true
+      },
+      {
+        type: 'add',
+        path: 'src/pages/example.page.ts',
+        templateFile: 'plop-templates/pages/ExamplePageObject.ts.hbs',
+        abortOnFail: true
+      },
     ]
   });
 };
