@@ -21,7 +21,7 @@ if (
 } */
 
 // This portion allows you to run the tests straight out the gate. You can remove this and modify the value on line 37 manually if you'd like.
-const myArgs = process.argv.slice(1);
+const myArgs = process.argv.slice(3);
 let nativeWindowHandle = "";
 if (
   myArgs[0] === "nativeWindowHandle"
@@ -107,6 +107,6 @@ export const config: WebdriverIO.Config = {
 
   onComplete: function () {
     const mergeResults = require("@wdio/json-reporter/mergeResults");
-    mergeResults(resultsPath, "results-*", "finalTestResults.json");
+    mergeResults("./test-results/", "results-*", "finalTestResults.json");
   },
 };
