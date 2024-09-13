@@ -38,6 +38,10 @@ module.exports = function (plop) {
             packageJson.devDependencies[key] = value;
           }
 
+          // Add a script to run WebDriverIO tests
+          packageJson.scripts = packageJson.scripts || {};
+          packageJson.scripts['wdio:test'] = 'wdio run wdio.win32.conf.ts';
+
           // Return the updated package.json content as a string
           return JSON.stringify(packageJson, null, 2);
         }
