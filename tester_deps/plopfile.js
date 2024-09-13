@@ -45,7 +45,8 @@ module.exports = function (plop) {
       {
         type: 'add',
         path: 'wdio.win32.conf.ts',
-        templateFile: 'plop-templates/wdio.win32.conf.ts.hbs'
+        templateFile: 'plop-templates/wdio.win32.conf.ts.hbs',
+        skipIfExists: true
       },
       {
         type: 'add',
@@ -77,13 +78,13 @@ module.exports = function (plop) {
       },
       {
         type: 'add',
-        path: 'src/specs/example.spec.ts',
+        path: 'src/specs/ExampleSpec.spec.ts',
         templateFile: 'plop-templates/specs/ExampleSpec.spec.ts.hbs',
         abortOnFail: true
       },
       {
         type: 'add',
-        path: 'src/pages/example.page.ts',
+        path: 'src/pages/ExamplePageObject.ts',
         templateFile: 'plop-templates/pages/ExamplePageObject.ts.hbs',
         abortOnFail: true
       },
