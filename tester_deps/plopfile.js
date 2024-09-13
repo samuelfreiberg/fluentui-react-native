@@ -48,35 +48,32 @@ module.exports = function (plop) {
         templateFile: 'plop-templates/wdio.win32.conf.ts.hbs'
       },
       {
+        type: 'add',
+        path: 'tsconfig.json',
+        templateFile: 'plop-templates/tsconfig.json.hbs',
+        skipIfExists: true // Skip if tsconfig.json already exists
+      },
+      {
         type: 'modify',
         path: 'tsconfig.json',
         transform: (content) => {
-          let tsConfig;
-
-          // If the file exists, parse it. If not, create a basic tsconfig.
-          try {
-            tsConfig = JSON.parse(content);
-          } catch (error) {
-            tsConfig = {
-              compilerOptions: {
-                types: []
-              }
-            };
-          }
+          const tsConfig = JSON.parse(content);
 
           tsConfig.compilerOptions = tsConfig.compilerOptions || {};
           tsConfig.compilerOptions.types = tsConfig.compilerOptions.types || [];
 
-          // Define the types to add
           const typesToAdd = ["@types/jasmine", "@wdio/globals/types", "@wdio/jasmine-framework", "node"];
 
-          // Add types to the tsconfig, ensuring no duplicates
           tsConfig.compilerOptions.types = Array.from(new Set([...tsConfig.compilerOptions.types, ...typesToAdd]));
 
-          // Return the updated tsconfig.json content as a string
           return JSON.stringify(tsConfig, null, 2);
         },
-        skipIfExists: false // Creates the file if it doesn't exist
+        skip: () => {
+          // Check if tsconfig.json exists before trying to modify it
+          if (!fs.existsSync('tsconfig.json')) {
+            return 'File does not exist, so it cannot be modified.';
+          }
+        }
       }
     ]
   });
