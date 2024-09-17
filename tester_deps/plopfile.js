@@ -111,7 +111,7 @@ module.exports = function (plop) {
         {
           type: 'add',
           path: 'scripts/getWordHandleAndRunWDIO.js',
-          templateFile: 'plop-templates/specs/getWordHandleAndRunWDIO.js.hbs',
+          templateFile: 'plop-templates/scripts/getWordHandleAndRunWDIO.js.hbs',
           abortOnFail: true
         },
         {
