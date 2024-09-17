@@ -40,7 +40,9 @@ module.exports = function (plop) {
               "@wdio/spec-reporter": "^8.40.0",
               "appium": "^2.11.2",
               "appium-windows-driver": "^2.12.18",
+              "ffi-napi": "^4.0.3",
               "plop": "^4.0.1",
+              "ref-napi": "^3.0.3",
               "ts-node": "^10.7.0",
               "typescript": "^4.9.4",
               "webdriverio": "^8.40.0"
@@ -106,6 +108,23 @@ module.exports = function (plop) {
           templateFile: 'plop-templates/pages/ExamplePageObject.ts.hbs',
           abortOnFail: true
         },
+        {
+          type: 'add',
+          path: 'scripts/getWordHandleAndRunWDIO.js',
+          templateFile: 'plop-templates/specs/getWordHandleAndRunWDIO.js.hbs',
+          abortOnFail: true
+        },
+        {
+          type: 'runCommand',
+          command: 'yarn install',
+          description: 'Running yarn install'
+        },
+        {
+          // Retrieve Word's NativeWindowHandle and run WDIO with it
+          type: 'runCommand',
+          command: 'node scripts/getWordHandleAndRunWDIO.js',
+          description: 'Retrieve Word window handle and run WebDriverIO'
+        }
       ]
     }
   });

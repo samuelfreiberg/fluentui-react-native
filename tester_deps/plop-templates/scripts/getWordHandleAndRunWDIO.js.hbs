@@ -1,0 +1,68 @@
+const ffi = require('ffi-napi');
+const ref = require('ref-napi');
+const { exec } = require('child_process');
+
+// Load user32.dll and define Windows API functions
+const user32 = ffi.Library('user32', {
+  'EnumWindows': ['bool', ['pointer', 'int32']],
+  'GetClassNameW': ['int32', ['int32', 'pointer', 'int32']],
+  'IsWindowVisible': ['bool', ['int32']]
+});
+
+// Function to convert a JavaScript string to a UTF-16 wide string buffer
+function toWideString(str) {
+  return Buffer.from(str + '\0', 'ucs2');
+}
+
+// Function to enumerate all windows and find Word's window by class name
+function getWordWindowHandle() {
+  console.log('In getWordWindowHandle()');
+  let hwnd = 0;
+  const classNameBuffer = Buffer.alloc(256); // Buffer to hold the window class name
+
+  const enumWindowsProc = ffi.Callback('bool', ['int32', 'int32'], (hwndCurrent, lParam) => {
+    user32.GetClassNameW(hwndCurrent, classNameBuffer, 256);
+    const className = ref.reinterpretUntilZeros(classNameBuffer, 2).toString('ucs2');
+
+    if (className === 'OpusApp' && user32.IsWindowVisible(hwndCurrent)) {
+      hwnd = hwndCurrent;
+      return false;  // Stop enumerating once we find the window
+    }
+    return true;  // Continue enumeration
+  });
+
+  user32.EnumWindows(enumWindowsProc, 0);
+
+  if (hwnd === 0) {
+    console.log('hwnd:' + hwnd);
+    console.error('Microsoft Word is not running or cannot find the window.');
+    process.exit(1);
+  }
+
+  return hwnd;
+}
+
+// Function to run WebDriverIO with the NativeWindowHandle
+function runWebDriverIOWithHandle(hwnd) {
+  const wdioCommand = `wdio wdio.win32.conf.ts nativeWindowHandle ${hwnd}`;
+  exec(wdioCommand, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error running WDIO: ${error.message}`);
+      return;
+    }
+    console.log(stdout);
+    if (stderr) {
+      console.error(stderr);
+    }
+  });
+}
+
+// Main function
+(function main() {
+  console.log('In main()');
+  const hwnd = getWordWindowHandle();
+  console.log(`Found Microsoft Word window handle: ${hwnd}`);
+
+  // Run WebDriverIO with the retrieved window handle
+  runWebDriverIOWithHandle(hwnd);
+})();
