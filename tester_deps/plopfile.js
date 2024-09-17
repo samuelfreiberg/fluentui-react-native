@@ -58,7 +58,7 @@ module.exports = function (plop) {
 
             // Add a script to run WebDriverIO tests
             packageJson.scripts = packageJson.scripts || {};
-            packageJson.scripts['wdio:test'] = 'wdio wdio.win32.conf.ts nativeWindowHandle <enterNativeWindowHandleHere>';
+            packageJson.scripts['e2etest'] = 'yarn node scripts/getWordHandleAndRunWDIO.js';
 
             // Return the updated package.json content as a string
             return JSON.stringify(packageJson, null, 2);
@@ -116,55 +116,7 @@ module.exports = function (plop) {
           templateFile: 'plop-templates/scripts/getWordHandleAndRunWDIO.js.hbs',
           abortOnFail: true
         },
-        {
-          type: 'custom-yarn-install',
-          description: 'Running yarn install'
-        },
-        {
-          // Retrieve Word's NativeWindowHandle and run WDIO with it
-          type: 'custom-run-wdio',
-          description: 'Retrieve Word window handle and run WebDriverIO'
-        }
       ]
     }
-  });
-
-  // Custom action to run yarn install with live output
-  plop.setActionType('custom-yarn-install', (answers, config, plop) => {
-    return new Promise((resolve, reject) => {
-      const yarnProcess = spawn('yarn', ['install']);
-
-      // Stream the output of yarn install
-      yarnProcess.stdout.on('data', (data) => {
-        process.stdout.write(data);
-      });
-
-      yarnProcess.stderr.on('data', (data) => {
-        process.stderr.write(data);
-      });
-
-      yarnProcess.on('close', (code) => {
-        if (code !== 0) {
-          reject(`yarn install failed with code ${code}`);
-        } else {
-          resolve('yarn install completed successfully');
-        }
-      });
-    });
-  });
-
-  // Custom action to retrieve Word handle and run WDIO
-  plop.setActionType('custom-run-wdio', (answers, config, plop) => {
-    return new Promise((resolve, reject) => {
-      exec('node scripts/getWordHandleAndRunWDIO.js', (error, stdout, stderr) => {
-        if (error) {
-          reject(`Failed to retrieve Word window handle or run WDIO: ${error}`);
-        } else {
-          console.log(stdout);
-          if (stderr) console.error(stderr);
-          resolve('Word window handle found and WDIO executed');
-        }
-      });
-    });
   });
 };
