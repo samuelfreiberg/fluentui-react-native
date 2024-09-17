@@ -7,7 +7,8 @@ const which = require('which');  // To dynamically resolve the path of npx
 const user32 = ffi.Library('user32', {
   'EnumWindows': ['bool', ['pointer', 'int32']],
   'GetClassNameW': ['int32', ['int32', 'pointer', 'int32']],
-  'IsWindowVisible': ['bool', ['int32']]
+  'IsWindowVisible': ['bool', ['int32']],
+  'GetWindowThreadProcessId': ['uint32', ['int32', 'uint32*']]  // Retrieves the process ID associated with a window
 });
 
 // Function to convert a JavaScript string to a UTF-16 wide string buffer
@@ -41,8 +42,38 @@ function getWordWindowHandle() {
   return '0x' + hwnd.toString(16).toUpperCase();
 }
 
+// Function to launch Microsoft Word
+function launchWord() {
+  return new Promise((resolve, reject) => {
+    const wordProcess = spawn('cmd', ['/c', 'start', 'winword']);  // Launch Microsoft Word
+
+    wordProcess.on('error', (err) => {
+      console.error('Failed to launch Microsoft Word:', err);
+      reject(err);
+    });
+
+    wordProcess.on('close', (code) => {
+      if (code !== 0) {
+        reject(`Microsoft Word process exited with code ${code}`);
+      } else {
+        console.log('Microsoft Word launched successfully.');
+        resolve();
+      }
+    });
+  });
+}
+
+// Function to get the Process ID (PID) of the window
+function getProcessIdFromWindowHandle(hwnd) {
+  const pidBuffer = ref.alloc('uint32');  // Allocate space for the PID
+  user32.GetWindowThreadProcessId(hwnd, pidBuffer);  // Get the PID
+  const pid = pidBuffer.deref();  // Dereference the buffer to get the PID value
+  return pid;
+}
+
 // Function to run WebDriverIO with the NativeWindowHandle and show output in real-time
 function runWebDriverIOWithHandle(hwnd) {
+  console.log('Launching WebDriverIO test runner...');
   // Find the full path to npx
   which('npx', (err, npxPath) => {
     if (err) {
@@ -60,16 +91,55 @@ function runWebDriverIOWithHandle(hwnd) {
         console.error(`WebDriverIO process exited with code ${code}`);
       } else {
         console.log('WebDriverIO process completed successfully');
+        // Shut down Microsoft Word after testing completes using the process ID (PID)
+        const pid = getProcessIdFromWindowHandle(hwnd);
+        shutdownWordByPid(pid);
       }
     });
   });
 }
 
-// Main function
-(function main() {
-  const hwnd = getWordWindowHandle();
-  console.log(`Found Microsoft Word window handle: ${hwnd}`);
+// Function to shut down the specific Microsoft Word process
+function shutdownWordByPid(pid) {
+  return new Promise((resolve, reject) => {
+    // Kill the process by PID
+    const killProcess = spawn('taskkill', ['/F', '/PID', pid]);
 
-  // Run WebDriverIO with the retrieved window handle
-  runWebDriverIOWithHandle(hwnd);
+    killProcess.stdout.on('data', (data) => {
+      console.log(`Shutdown output: ${data}`);
+    });
+
+    killProcess.stderr.on('data', (data) => {
+      console.error(`Shutdown error: ${data}`);
+    });
+
+    killProcess.on('close', (code) => {
+      if (code !== 0) {
+        reject(`Failed to shut down Word, taskkill exited with code ${code}`);
+      } else {
+        console.log('Microsoft Word shut down successfully.');
+        resolve();
+      }
+    });
+  });
+}
+
+// Immediately Invoked Async Function Expression (to use await at the top level)
+(async function () {
+  try {
+    // Launch Microsoft Word
+    await launchWord();
+
+    // Wait for a short while to ensure Word is fully launched (optional: adjust delay if needed)
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    // Find the Word window handle after launching
+    const hwnd = getWordWindowHandle();
+    console.log(`Found Microsoft Word window handle: ${hwnd}`);
+
+    // Run WebDriverIO with the retrieved window handle
+    runWebDriverIOWithHandle(hwnd);
+  } catch (error) {
+    console.error('Error during the process:', error);
+  }
 })();
