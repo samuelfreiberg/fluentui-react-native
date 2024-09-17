@@ -115,17 +115,45 @@ module.exports = function (plop) {
           abortOnFail: true
         },
         {
-          type: 'runCommand',
-          command: 'yarn install',
+          type: 'custom-yarn-install',
           description: 'Running yarn install'
         },
         {
           // Retrieve Word's NativeWindowHandle and run WDIO with it
-          type: 'runCommand',
-          command: 'node scripts/getWordHandleAndRunWDIO.js',
+          type: 'custom-run-wdio',
           description: 'Retrieve Word window handle and run WebDriverIO'
         }
       ]
     }
+  });
+
+  // Custom action to run npm install
+  plop.setActionType('custom-yarn-install', (answers, config, plop) => {
+    return new Promise((resolve, reject) => {
+      exec('yarn install', (error, stdout, stderr) => {
+        if (error) {
+          reject(`yarn install failed: ${error}`);
+        } else {
+          console.log(stdout);
+          if (stderr) console.error(stderr);
+          resolve('yarn install completed');
+        }
+      });
+    });
+  });
+
+  // Custom action to retrieve Word handle and run WDIO
+  plop.setActionType('custom-run-wdio', (answers, config, plop) => {
+    return new Promise((resolve, reject) => {
+      exec('node scripts/getWordHandleAndRunWDIO.js', (error, stdout, stderr) => {
+        if (error) {
+          reject(`Failed to retrieve Word window handle or run WDIO: ${error}`);
+        } else {
+          console.log(stdout);
+          if (stderr) console.error(stderr);
+          resolve('Word window handle found and WDIO executed');
+        }
+      });
+    });
   });
 };
