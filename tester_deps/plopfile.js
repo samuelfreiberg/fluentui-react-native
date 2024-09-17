@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 
 module.exports = function (plop) {
   plop.setGenerator('setup-test-package', {
@@ -129,16 +129,25 @@ module.exports = function (plop) {
     }
   });
 
-  // Custom action to run npm install
+  // Custom action to run yarn install with live output
   plop.setActionType('custom-yarn-install', (answers, config, plop) => {
     return new Promise((resolve, reject) => {
-      exec('yarn install', (error, stdout, stderr) => {
-        if (error) {
-          reject(`yarn install failed: ${error}`);
+      const yarnProcess = spawn('yarn', ['install']);
+
+      // Stream the output of yarn install
+      yarnProcess.stdout.on('data', (data) => {
+        process.stdout.write(data);
+      });
+
+      yarnProcess.stderr.on('data', (data) => {
+        process.stderr.write(data);
+      });
+
+      yarnProcess.on('close', (code) => {
+        if (code !== 0) {
+          reject(`yarn install failed with code ${code}`);
         } else {
-          console.log(stdout);
-          if (stderr) console.error(stderr);
-          resolve('yarn install completed');
+          resolve('yarn install completed successfully');
         }
       });
     });
